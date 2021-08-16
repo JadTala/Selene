@@ -74,7 +74,8 @@ STATIC_ASSERT(sizeof(f64) == 8, "Expected f64 to be 8 bytes.");
 #define SLN_PLATFORM_IOS 1
 // iOS device
 #elif TARGET_OS_MAC
-// Other kinds of Mac OS
+// macOS device
+#define SLN_PLATFORM_MACOS
 #else
 #error "Unknown Apple platform"
 #endif
