@@ -13,7 +13,7 @@ if(UNIX AND NOT APPLE)
 endif()
 
 if(WIN32)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DVK_USE_PLATFORM_WIN32_KHR -DUNICODE")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DVK_USE_PLATFORM_WIN32_KHR -DUNICODE -DSLN_EXPORT -D_DEBUG")
 elseif(APPLE)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DVK_USE_PLATFORM_MACOS_MVK -DVK_EXAMPLE_XCODE_GENERATED")
 elseif(LINUX)
@@ -24,19 +24,11 @@ endif()
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DNOMINMAX -D_USE_MATH_DEFINES")
 
 # Clang specific
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-switch-enum")
-endif()
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-switch-enum")
 
-# Compiler specific stuff
-if(MSVC)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /EHsc")
-elseif(APPLE)
-	if(CMAKE_C_COMPILER_ID MATCHES "Clang")
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fobjc-arc -ObjC")
-	else()
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fobjc-arc -xobjective-c")
-	endif()
+# Apple Clang specific
+if(APPLE)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fobjc-arc -ObjC")
 endif()
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
