@@ -31,7 +31,7 @@ int main(void) {
 
     // Initialization.
     if (!application_create(&game_inst)) {
-        SLN_INFO("Application failed to create!.");
+        SLN_FATAL("Application failed to create!.");
         return 1;
     }
 
