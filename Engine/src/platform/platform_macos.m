@@ -1,6 +1,7 @@
 #include "platform/platform.h"
 
 #if defined(SLN_PLATFORM_MACOS)
+
 #include "core/logger.h"
 
 #include <mach/mach_time.h>
@@ -73,7 +74,7 @@ b8 platform_startup(
     // App delegate creation
     state->app_delegate = [[ApplicationDelegate alloc] init];
     if (state->app_delegate == nil) {
-        SLN_ERROR("macOS Platform Layer: Failed to create application delegate")
+        SLN_ERROR("Failed to create application delegate")
         return FALSE;
     }
     [NSApp setDelegate:state->app_delegate];
@@ -81,7 +82,7 @@ b8 platform_startup(
     // Window delegate creation
     state->wnd_delegate = [[WindowDelegate alloc] initWithWindow:state->window];
     if (state->wnd_delegate == nil) {
-        SLN_ERROR("macOS Platform Layer: Failed to create window delegate")
+        SLN_ERROR("Failed to create window delegate")
         return FALSE;
     }
 
@@ -92,7 +93,7 @@ b8 platform_startup(
         backing:NSBackingStoreBuffered
         defer:NO];
     if (state->window == nil) {
-        SLN_ERROR("macOS Platform Layer: Failed to create window");
+        SLN_ERROR("Failed to create window");
         return FALSE;
     }
 
@@ -196,6 +197,4 @@ void platform_sleep(u64 ms) {
 #endif
 }
 
-#elif SLN_PLATFORM_IOS
-// TODO Implement iOS platform layer
-#endif
+#endif // SLN_PLATFORM_MACOS
