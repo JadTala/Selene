@@ -197,4 +197,8 @@ void platform_sleep(u64 ms) {
 #endif
 }
 
+void platform_get_required_extension_names(const char ***names_darray) {
+    // TODO Provide required extension names (macOS)
+}
+
 #endif // SLN_PLATFORM_MACOS
