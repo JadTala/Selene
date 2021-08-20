@@ -55,8 +55,8 @@
 @end // ApplicationDelegate
 
 typedef struct internal_state {
-    ApplicationDelegate* appDelegate;
-    WindowDelegate* wndDelegate;
+    ApplicationDelegate* app_delegate;
+    WindowDelegate* wnd_delegate;
     Window* window;
 } internal_state;
 
@@ -71,16 +71,16 @@ b8 platform_startup(
     internal_state* state = (internal_state*)plat_state->internal_state;
 
     // App delegate creation
-    state->appDelegate = [[ApplicationDelegate alloc] init];
-    if (state->appDelegate == nil) {
+    state->app_delegate = [[ApplicationDelegate alloc] init];
+    if (state->app_delegate == nil) {
         SLN_ERROR("macOS Platform Layer: Failed to create application delegate")
         return FALSE;
     }
-    [NSApp setDelegate:state->appDelegate];
+    [NSApp setDelegate:state->app_delegate];
 
     // Window delegate creation
-    state->wndDelegate = [[WindowDelegate alloc] initWithWindow:state->window];
-    if (state->wndDelegate == nil) {
+    state->wnd_delegate = [[WindowDelegate alloc] initWithWindow:state->window];
+    if (state->wnd_delegate == nil) {
         SLN_ERROR("macOS Platform Layer: Failed to create window delegate")
         return FALSE;
     }
@@ -99,7 +99,7 @@ b8 platform_startup(
     // Setting window properties
     [state->window setLevel:NSMainMenuWindowLevel];
     [state->window setTitle:@(application_name)];
-    [state->window setDelegate:state->wndDelegate];
+    [state->window setDelegate:state->wnd_delegate];
     [state->window setAcceptsMouseMovedEvents:YES];
     [state->window setRestorable:NO];
     [state->window orderFront:nil];
@@ -118,9 +118,9 @@ void platform_shutdown(platform_state *plat_state) {
     // Simply cold-cast to the known type.
     internal_state* state = (internal_state*)plat_state->internal_state;
 
-    if (state->appDelegate) {
+    if (state->app_delegate) {
         [NSApp setDelegate:nil];
-        state->appDelegate = nil;
+        state->app_delegate = nil;
     }
 }
 
@@ -143,7 +143,7 @@ b8 platform_pump_messages(platform_state *plat_state) {
         [NSApp sendEvent:event];
     }
 
-    return !state->wndDelegate->quit;
+    return !state->wnd_delegate->quit;
 }
 
 void* platform_allocate(u64 size, b8 aligned) {
