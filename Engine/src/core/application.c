@@ -41,14 +41,6 @@ b8 application_create(game* game_inst) {
     initialize_logging();
     input_initialize();
 
-    // TODO: Remove this
-    SLN_FATAL("A test message: %f", 3.14f);
-    SLN_ERROR("A test message: %f", 3.14f);
-    SLN_WARN("A test message: %f", 3.14f);
-    SLN_INFO("A test message: %f", 3.14f);
-    SLN_DEBUG("A test message: %f", 3.14f);
-    SLN_TRACE("A test message: %f", 3.14f);
-
     app_state.is_running = TRUE;
     app_state.is_suspended = FALSE;
 
