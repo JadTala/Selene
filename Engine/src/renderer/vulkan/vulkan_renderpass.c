@@ -3,12 +3,24 @@
 #include "core/sln_memory.h"
 
 void vulkan_renderpass_create(
-    vulkan_context* context, 
+    vulkan_context* context,
     vulkan_renderpass* out_renderpass,
     f32 x, f32 y, f32 w, f32 h,
     f32 r, f32 g, f32 b, f32 a,
     f32 depth,
     u32 stencil) {
+    out_renderpass->x = x;
+    out_renderpass->y = y;
+    out_renderpass->w = w;
+    out_renderpass->h = h;
+
+    out_renderpass->r = r;
+    out_renderpass->g = g;
+    out_renderpass->b = b;
+    out_renderpass->a = a;
+
+    out_renderpass->depth = depth;
+    out_renderpass->stencil = stencil;
 
     // Main subpass
     VkSubpassDescription subpass = {};
