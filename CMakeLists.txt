@@ -10,6 +10,7 @@ find_package(Vulkan)
 
 if(UNIX AND NOT APPLE)
   set(LINUX TRUE)
+  find_package(X11)
 endif()
 
 # Debug flag
@@ -44,7 +45,7 @@ if(WIN32)
 elseif(APPLE)
 	link_libraries(Vulkan::Vulkan "-framework AppKit" "-framework QuartzCore")
 elseif(LINUX)
-	link_libraries(Vulkan::Vulkan ${XCB_LIBRARIES})
+	link_libraries(Vulkan::Vulkan X11::xcb X11::X11_xcb)
 endif()
 
 add_subdirectory(Engine)
