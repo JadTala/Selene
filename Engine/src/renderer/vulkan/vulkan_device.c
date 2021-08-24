@@ -84,9 +84,17 @@ b8 vulkan_device_create(vulkan_context* context) {
     device_create_info.queueCreateInfoCount = index_count;
     device_create_info.pQueueCreateInfos = queue_create_infos;
     device_create_info.pEnabledFeatures = &device_features;
+#ifdef SLN_PLATFORM_MACOS
+    device_create_info.enabledExtensionCount = 2;
+    char *extension_names[2];
+    extension_names[0] = VK_KHR_SWAPCHAIN_EXTENSION_NAME;
+    extension_names[1] = "VK_KHR_portability_subset";
+    device_create_info.ppEnabledExtensionNames = (const char *const *)extension_names;
+#else
     device_create_info.enabledExtensionCount = 1;
     const char* extension_names = VK_KHR_SWAPCHAIN_EXTENSION_NAME;
     device_create_info.ppEnabledExtensionNames = &extension_names;
+#endif
 
     // Deprecated and ignored, so pass nothing.
     device_create_info.enabledLayerCount = 0;
