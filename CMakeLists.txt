@@ -41,7 +41,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 if(WIN32)
-	# Nothing here (yet)
+	link_libraries(Vulkan::Vulkan)
 elseif(APPLE)
 	link_libraries(Vulkan::Vulkan "-framework AppKit" "-framework QuartzCore")
 elseif(LINUX)
