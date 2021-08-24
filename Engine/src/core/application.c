@@ -177,7 +177,7 @@ void application_get_framebuffer_size(u32* width, u32* height) {
 b8 application_on_event(u16 code, void* sender, void* listener_inst, event_context context) {
     switch (code) {
         case EVENT_CODE_APPLICATION_QUIT: {
-            SLN_INFO("EVENT_CODE_APPLICATION_QUIT recieved, shutting down.\n");
+            SLN_INFO("EVENT_CODE_APPLICATION_QUIT received, shutting down.\n");
             app_state.is_running = FALSE;
             return TRUE;
         }
