@@ -32,7 +32,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-switch-enum")
 
 # Apple Clang specific
 if(APPLE)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fobjc-arc -ObjC")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ObjC")
 endif()
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
