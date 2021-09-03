@@ -101,3 +101,15 @@ STATIC_ASSERT(sizeof(f64) == 8, "Expected f64 to be 8 bytes.");
 
 #define SLN_CLAMP(value, min, max) (value <= min) ? min : (value >= max) ? max \
     : value;
+
+// Inlining
+#if defined(__clang__) || defined(__gcc__)
+#define SLN_INLINE __attribute__((always_inline)) inline
+#define SLN_NOINLINE __attribute__((noinline))
+#elif defined(_MSC_VER)
+#define SLN_INLINE __forceinline
+#define SLN_NOINLINE __declspec(noinline)
+#else
+#define SLN_INLINE static inline
+#define SLN_NOINLINE
+#endif
