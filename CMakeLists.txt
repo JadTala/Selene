@@ -3,25 +3,27 @@ cmake_minimum_required(VERSION 3.16)
 # Target Names
 set(ENGINE Selene)
 set(TESTBED Testbed)
+set(TESTS Tests)
 
 project(ENGINE)
 
 find_package(Vulkan)
 
 if(UNIX AND NOT APPLE)
-  set(LINUX TRUE)
-  find_package(X11)
+	set(LINUX true)
+	find_package(X11)
 endif()
 
 # Debug flag
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG")
 
 if(WIN32)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DUNICODE -DSLN_EXPORT -D_DEBUG")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -MD -Werror=vla -fdeclspec -DUNICODE")
 elseif(APPLE)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -MD -Werror=vla -fdeclspec -fPIC")
 elseif(LINUX)
-  find_package(Threads REQUIRED)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -MD -Werror=vla -fdeclspec -fPIC")
+  	find_package(Threads REQUIRED)
 endif()
 
 # Set preprocessor defines
@@ -50,3 +52,4 @@ endif()
 
 add_subdirectory(Engine)
 add_subdirectory(Testbed)
+add_subdirectory(Tests)

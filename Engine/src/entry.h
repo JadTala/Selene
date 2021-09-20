@@ -14,8 +14,6 @@ extern b8 create_game(game* out_game);
  */
 int main(void) {
 
-    initialize_memory();
-
     // Request the game instance from the application.
     game game_inst;
     if (!create_game(&game_inst)) {
@@ -36,12 +34,10 @@ int main(void) {
     }
 
     // Begin the game loop.
-    if(!application_run()) {
+    if (!application_run()) {
         SLN_INFO("Application did not shutdown gracefully.");
         return 2;
     }
-
-    shutdown_memory();
 
     return 0;
 }

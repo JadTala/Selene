@@ -6,4 +6,6 @@ else()
 endif()
 
 add_library(${ENGINE} STATIC ${HEADERS} ${SOURCES})
+add_definitions(-DSLN_EXPORT)
 target_include_directories(${ENGINE} PUBLIC src)
+

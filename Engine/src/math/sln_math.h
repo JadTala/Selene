@@ -220,14 +220,14 @@ SLN_INLINE vec2 vec2_normalized(vec2 vector) {
  */
 SLN_INLINE b8 vec2_compare(vec2 vector_0, vec2 vector_1, f32 tolerance) {
     if (sln_abs(vector_0.x - vector_1.x) > tolerance) {
-        return FALSE;
+        return false;
     }
 
     if (sln_abs(vector_0.y - vector_1.y) > tolerance) {
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
 /**
@@ -493,18 +493,18 @@ SLN_INLINE vec3 vec3_cross(vec3 vector_0, vec3 vector_1) {
  */
 SLN_INLINE const b8 vec3_compare(vec3 vector_0, vec3 vector_1, f32 tolerance) {
     if (sln_abs(vector_0.x - vector_1.x) > tolerance) {
-        return FALSE;
+        return false;
     }
 
     if (sln_abs(vector_0.y - vector_1.y) > tolerance) {
-        return FALSE;
+        return false;
     }
 
     if (sln_abs(vector_0.z - vector_1.z) > tolerance) {
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
 /**
