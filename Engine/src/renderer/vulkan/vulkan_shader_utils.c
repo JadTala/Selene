@@ -15,7 +15,7 @@ b8 create_shader_module(
     vulkan_shader_stage* shader_stages) {
     // Build file name.
     char file_name[512];
-    string_format(file_name, "assets/shaders/%s.%s.spv", name, type_str);
+    string_format(file_name, "Assets/Shaders/%s.%s.spv", name, type_str);
 
     sln_zero_memory(&shader_stages[stage_index].create_info, sizeof(VkShaderModuleCreateInfo));
     shader_stages[stage_index].create_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -52,11 +52,5 @@ b8 create_shader_module(
     shader_stages[stage_index].shader_stage_create_info.stage = shader_stage_flag;
     shader_stages[stage_index].shader_stage_create_info.module = shader_stages[stage_index].handle;
     shader_stages[stage_index].shader_stage_create_info.pName = "main";
-
-    if (file_buffer) {
-        sln_free(file_buffer, sizeof(u8) * size, MEMORY_TAG_STRING);
-        file_buffer = 0;
-    }
-
     return true;
 }
