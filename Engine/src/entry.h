@@ -16,7 +16,7 @@ int main(void) {
 
     // Request the game instance from the application.
     game game_inst;
-    if (!create_game(&game_inst)) {
+if (!create_game(&game_inst)) {
         SLN_FATAL("Could not create game!");
         return -1;
     }

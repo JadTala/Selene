@@ -2,10 +2,6 @@
 
 #include "defines.h"
 
-typedef struct platform_state {
-    void* internal_state;
-} platform_state;
-
 b8 platform_system_startup(
     u64* memory_requirement,
     void* state,

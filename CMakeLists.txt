@@ -17,7 +17,7 @@ endif()
 # Debug flag
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG")
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -MD -Werror=vla -fdeclspec")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -MD -fdeclspec")
 
 if(WIN32)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DUNICODE")

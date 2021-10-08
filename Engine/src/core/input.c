@@ -49,28 +49,30 @@ void input_update(f64 delta_time) {
 }
 
 void input_process_key(keys key, b8 pressed) {
-    if (key == KEY_LALT) {
-        SLN_INFO("Left alt pressed.");
-    } else if (key == KEY_RALT) {
-        SLN_INFO("Right alt pressed.");
-    }
-
-    if (key == KEY_LCONTROL) {
-        SLN_INFO("Left ctrl pressed.");
-    } else if (key == KEY_RCONTROL) {
-        SLN_INFO("Right ctrl pressed.");
-    }
-
-    if (key == KEY_LSHIFT) {
-        SLN_INFO("Left shift pressed.");
-    } else if (key == KEY_RSHIFT) {
-        SLN_INFO("Right shift pressed.");
-    }
+    
 
     // Only handle this if the state actually changed.
-    if (state_ptr->keyboard_current.keys[key] != pressed) {
+    if (state_ptr && state_ptr->keyboard_current.keys[key] != pressed) {
         // Update internal state_ptr->
         state_ptr->keyboard_current.keys[key] = pressed;
+
+        if (key == KEY_LALT) {
+            SLN_INFO("Left alt %s.", pressed ? "pressed" : "released");
+        } else if (key == KEY_RALT) {
+            SLN_INFO("Right alt %s.", pressed ? "pressed" : "released");
+        }
+
+        if (key == KEY_LCONTROL) {
+            SLN_INFO("Left ctrl %s.", pressed ? "pressed" : "released");
+        } else if (key == KEY_RCONTROL) {
+            SLN_INFO("Right ctrl %s.", pressed ? "pressed" : "released");
+        }
+
+        if (key == KEY_LSHIFT) {
+            SLN_INFO("Left shift %s.", pressed ? "pressed" : "released");
+        } else if (key == KEY_RSHIFT) {
+            SLN_INFO("Right shift %s.", pressed ? "pressed" : "released");
+        }
 
         // Fire off an event for immediate processing.
         event_context context;
@@ -119,28 +121,28 @@ void input_process_mouse_wheel(i8 z_delta) {
 }
 
 b8 input_is_key_down(keys key) {
-    if (!initialized) {
+    if (!state_ptr) {
         return false;
     }
     return state_ptr->keyboard_current.keys[key] == true;
 }
 
 b8 input_is_key_up(keys key) {
-    if (!initialized) {
+    if (!state_ptr) {
         return true;
     }
     return state_ptr->keyboard_current.keys[key] == false;
 }
 
 b8 input_was_key_down(keys key) {
-    if (!initialized) {
+    if (!state_ptr) {
         return false;
     }
     return state_ptr->keyboard_previous.keys[key] == true;
 }
 
 b8 input_was_key_up(keys key) {
-    if (!initialized) {
+    if (!state_ptr) {
         return true;
     }
     return state_ptr->keyboard_previous.keys[key] == false;
@@ -148,35 +150,35 @@ b8 input_was_key_up(keys key) {
 
 // mouse input
 b8 input_is_button_down(buttons button) {
-    if (!initialized) {
+    if (!state_ptr) {
         return false;
     }
     return state_ptr->mouse_current.buttons[button] == true;
 }
 
 b8 input_is_button_up(buttons button) {
-    if (!initialized) {
+    if (!state_ptr) {
         return true;
     }
     return state_ptr->mouse_current.buttons[button] == false;
 }
 
 b8 input_was_button_down(buttons button) {
-    if (!initialized) {
+    if (!state_ptr) {
         return false;
     }
     return state_ptr->mouse_previous.buttons[button] == true;
 }
 
 b8 input_was_button_up(buttons button) {
-    if (!initialized) {
+    if (!state_ptr) {
         return true;
     }
     return state_ptr->mouse_previous.buttons[button] == false;
 }
 
 void input_get_mouse_position(i32* x, i32* y) {
-    if (!initialized) {
+    if (!state_ptr) {
         *x = 0;
         *y = 0;
         return;
@@ -186,7 +188,7 @@ void input_get_mouse_position(i32* x, i32* y) {
 }
 
 void input_get_previous_mouse_position(i32* x, i32* y) {
-    if (!initialized) {
+    if (!state_ptr) {
         *x = 0;
         *y = 0;
         return;

@@ -17,7 +17,6 @@ typedef struct application_state {
     game* game_inst;
     b8 is_running;
     b8 is_suspended;
-    platform_state platform;
     i16 width;
     i16 height;
     clock clock;

@@ -19,10 +19,10 @@ b8 renderer_system_initialize(u64* memory_requirement, void* state, const char* 
     state_ptr = state;
 
     // TODO: make this configurable.
-    renderer_backend_create(RENDERER_BACKEND_TYPE_VULKAN, state_ptr->backend);
-    state_ptr->backend->frame_number = 0;
+    renderer_backend_create(RENDERER_BACKEND_TYPE_VULKAN, &state_ptr->backend);
+    state_ptr->backend.frame_number = 0;
 
-    if (!state_ptr->backend->initialize(&state_ptr->backend, application_name)) {
+    if (!state_ptr->backend.initialize(&state_ptr->backend, application_name)) {
         SLN_FATAL("Renderer backend failed to initialize. Shutting down.");
         return false;
     }
@@ -64,7 +64,6 @@ void renderer_on_resized(u16 width, u16 height) {
 b8 renderer_draw_frame(render_packet* packet) {
     // If the begin frame returned successfully, mid-frame operations may continue.
     if (renderer_begin_frame(packet->delta_time)) {
-
         // End the frame. If this fails, it is likely unrecoverable.
         b8 result = renderer_end_frame(packet->delta_time);
 
