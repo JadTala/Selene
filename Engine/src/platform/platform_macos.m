@@ -24,7 +24,7 @@
 @class WindowDelegate;
 @class ContentView;
  
-typedef struct internal_state {
+typedef struct platform_state {
     ApplicationDelegate* app_delegate;
     WindowDelegate* wnd_delegate;
     NSWindow* window;
@@ -32,34 +32,38 @@ typedef struct internal_state {
     CAMetalLayer* layer;
     VkSurfaceKHR surface;
     b8 quit_flagged;
-} internal_state;
+} platform_state;
+
+static platform_state* state_ptr;
+
+static void platform_console_write_file(FILE* file, const char* message, u8 colour);
 
 // Key translation
 keys translate_keycode(u32 ns_keycode);
 
 @interface WindowDelegate : NSObject <NSWindowDelegate> {
-    internal_state* state;
+    platform_state* state;
 }
 
-- (instancetype)initWithState:(internal_state*)init_state;
+- (instancetype)initWithState:(platform_state*)init_state;
 
 @end // WindowDelegate
 
 @implementation WindowDelegate
 
-- (instancetype)initWithState:(internal_state*)init_state {
+- (instancetype)initWithState:(platform_state*)init_state {
     self = [super init];
     
     if (self != nil) {
         state = init_state;
-        state->quit_flagged = false;
+        state_ptr->quit_flagged = false;
     }
     
     return self;
 }
 
 - (BOOL)windowShouldClose:(id)sender {
-    state->quit_flagged = true;
+    state_ptr->quit_flagged = true;
 
     event_context data = {};
     event_fire(EVENT_CODE_APPLICATION_QUIT, 0, data);
@@ -69,8 +73,8 @@ keys translate_keycode(u32 ns_keycode);
 
 - (void)windowDidResize:(NSNotification *)notification {
     event_context context;
-    const NSRect contentRect = [state->view frame];
-    const NSRect framebufferRect = [state->view convertRectToBacking:contentRect];
+    const NSRect contentRect = [state_ptr->view frame];
+    const NSRect framebufferRect = [state_ptr->view convertRectToBacking:contentRect];
     context.data.u16[0] = (u16)framebufferRect.size.width;
     context.data.u16[1] = (u16)framebufferRect.size.height;
     event_fire(EVENT_CODE_RESIZED, 0, context);
@@ -82,18 +86,18 @@ keys translate_keycode(u32 ns_keycode);
     context.data.u16[1] = 0;
     event_fire(EVENT_CODE_RESIZED, 0, context);
 
-    [state->window miniaturize:nil];
+    [state_ptr->window miniaturize:nil];
 }
 
 - (void)windowDidDeminiaturize:(NSNotification *)notification {
     event_context context;
-    const NSRect contentRect = [state->view frame];
-    const NSRect framebufferRect = [state->view convertRectToBacking:contentRect];
+    const NSRect contentRect = [state_ptr->view frame];
+    const NSRect framebufferRect = [state_ptr->view convertRectToBacking:contentRect];
     context.data.u16[0] = (u16)framebufferRect.size.width;
     context.data.u16[1] = (u16)framebufferRect.size.height;
     event_fire(EVENT_CODE_RESIZED, 0, context);
 
-    [state->window deminiaturize:nil];
+    [state_ptr->window deminiaturize:nil];
 }
 
 @end // WindowDelegate
@@ -253,65 +257,70 @@ static const NSRange kEmptyRange = { NSNotFound, 0 };
 
 @end // ApplicationDelegate
 
-b8 platform_startup(
-    platform_state *plat_state,
+b8 platform_system_startup(
+    u64* memory_requirement,
+    void* state,
     const char *application_name,
     i32 x,
     i32 y,
     i32 width,
     i32 height) {
-    plat_state->internal_state = malloc(sizeof(internal_state));
-    internal_state* state = (internal_state*)plat_state->internal_state;
+    *memory_requirement = sizeof(platform_state);
+    if (state == 0) {
+        return true;
+    }
+
+    state_ptr = state;
 
     @autoreleasepool {
 
     [NSApplication sharedApplication];
 
     // App delegate creation
-    state->app_delegate = [[ApplicationDelegate alloc] init];
-    if (!state->app_delegate) {
+    state_ptr->app_delegate = [[ApplicationDelegate alloc] init];
+    if (!state_ptr->app_delegate) {
         SLN_ERROR("Failed to create application delegate")
         return false;
     }
-    [NSApp setDelegate:state->app_delegate];
+    [NSApp setDelegate:state_ptr->app_delegate];
 
     // Window delegate creation
-    state->wnd_delegate = [[WindowDelegate alloc] initWithState:state];
-    if (!state->wnd_delegate) {
+    state_ptr->wnd_delegate = [[WindowDelegate alloc] initWithState:state];
+    if (!state_ptr->wnd_delegate) {
         SLN_ERROR("Failed to create window delegate")
         return false;
     }
 
     // Window creation
-    state->window = [[NSWindow alloc]
+    state_ptr->window = [[NSWindow alloc]
         initWithContentRect:NSMakeRect(x, y, width, height)
         styleMask:NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskResizable
         backing:NSBackingStoreBuffered
         defer:NO];
-    if (!state->window) {
+    if (!state_ptr->window) {
         SLN_ERROR("Failed to create window");
         return false;
     }
 
     // Layer creation
-    state->layer = [CAMetalLayer layer];
-    if (!state->layer) {
+    state_ptr->layer = [CAMetalLayer layer];
+    if (!state_ptr->layer) {
         SLN_ERROR("Failed to create layer for view");
     }
 
     // View creation
-    state->view = [[ContentView alloc] initWithWindow:state->window];
-    [state->view setLayer:state->layer];
-    [state->view setWantsLayer:YES];
+    state_ptr->view = [[ContentView alloc] initWithWindow:state_ptr->window];
+    [state_ptr->view setLayer:state_ptr->layer];
+    [state_ptr->view setWantsLayer:YES];
 
     // Setting window properties
-    [state->window setLevel:NSNormalWindowLevel];
-    [state->window setContentView:state->view];
-    [state->window makeFirstResponder:state->view];
-    [state->window setTitle:@(application_name)];
-    [state->window setDelegate:state->wnd_delegate];
-    [state->window setAcceptsMouseMovedEvents:YES];
-    [state->window setRestorable:NO];
+    [state_ptr->window setLevel:NSNormalWindowLevel];
+    [state_ptr->window setContentView:state_ptr->view];
+    [state_ptr->window makeFirstResponder:state_ptr->view];
+    [state_ptr->window setTitle:@(application_name)];
+    [state_ptr->window setDelegate:state_ptr->wnd_delegate];
+    [state_ptr->window setAcceptsMouseMovedEvents:YES];
+    [state_ptr->window setRestorable:NO];
 
     if (![[NSRunningApplication currentApplication] isFinishedLaunching])
         [NSApp run];
@@ -321,61 +330,67 @@ b8 platform_startup(
 
     // Putting window in front on launch
     [NSApp activateIgnoringOtherApps:YES];
-    [state->window makeKeyAndOrderFront:nil];
+    [state_ptr->window makeKeyAndOrderFront:nil];
 
     return true;
 
     } // autoreleasepool
 }
 
-void platform_shutdown(platform_state *plat_state) {
-    // Simply cold-cast to the known type.
-    internal_state* state = (internal_state*)plat_state->internal_state;
+void platform_system_shutdown(void* platform_state) {
+    if (state_ptr) {
+        // Simply cold-cast to the known type.
+        platform_state* state = (platform_state*)plat_state_ptr->platform_state;
 
-    @autoreleasepool {
+        @autoreleasepool {
 
-    [state->window orderOut:nil];
+        [state_ptr->window orderOut:nil];
 
-    [state->window setDelegate:nil];
-    [state->wnd_delegate release];
+        [state_ptr->window setDelegate:nil];
+        [state_ptr->wnd_delegate release];
 
-    [state->view release];
-    state->view = nil;
+        [state_ptr->view release];
+        state_ptr->view = nil;
 
-    [state->window close];
-    state->window = nil;
+        [state_ptr->window close];
+        state_ptr->window = nil;
 
-    [NSApp setDelegate:nil];
-    [state->app_delegate release];
-    state->app_delegate = nil;
+        [NSApp setDelegate:nil];
+        [state_ptr->app_delegate release];
+        state_ptr->app_delegate = nil;
 
-    } // autoreleasepool
+        } // autoreleasepool
+    }
+    state_ptr = 0;
 }
 
-b8 platform_pump_messages(platform_state *plat_state) {
-    // Simply cold-cast to the known type.
-    internal_state* state = (internal_state*)plat_state->internal_state;
-    
-    @autoreleasepool {
-
-    NSEvent* event;
-
-    for (;;) {
-        event = [NSApp 
-            nextEventMatchingMask:NSEventMaskAny
-            untilDate:[NSDate distantPast]
-            inMode:NSDefaultRunLoopMode
-            dequeue:YES];
-
-        if (!event)
-            break;
+b8 platform_pump_messages() {
+    if (state_ptr) {
+        // Simply cold-cast to the known type.
+        platform_state* state = (platform_state*)plat_state_ptr->platform_state;
         
-        [NSApp sendEvent:event];
+        @autoreleasepool {
+
+        NSEvent* event;
+
+        for (;;) {
+            event = [NSApp 
+                nextEventMatchingMask:NSEventMaskAny
+                untilDate:[NSDate distantPast]
+                inMode:NSDefaultRunLoopMode
+                dequeue:YES];
+
+            if (!event)
+                break;
+            
+            [NSApp sendEvent:event];
+        }
+
+        } // autoreleasepool
+
+        return !state_ptr->quit_flagged;
     }
-
-    } // autoreleasepool
-
-    return !state->quit_flagged;
+    return true;
 }
 
 void* platform_allocate(u64 size, b8 aligned) {
@@ -433,23 +448,27 @@ void platform_get_required_extension_names(const char ***names_darray) {
 }
 
 b8 platform_create_vulkan_surface(platform_state *plat_state, vulkan_context *context) {
+    if (!state_ptr) {
+        return false;
+    }
+    
     // Simply cold-cast to the known type.
-    internal_state *state = (internal_state *)plat_state->internal_state;
+    platform_state *state = (platform_state *)plat_state_ptr->platform_state;
 
     VkMetalSurfaceCreateInfoEXT create_info = {VK_STRUCTURE_TYPE_METAL_SURFACE_CREATE_INFO_EXT};
-    create_info.pLayer = state->layer;
+    create_info.pLayer = state_ptr->layer;
 
     VkResult result = vkCreateMetalSurfaceEXT(
         context->instance, 
         &create_info,
         context->allocator,
-        &state->surface);
+        &state_ptr->surface);
     if (result != VK_SUCCESS) {
         SLN_FATAL("Vulkan surface creation failed.");
         return false;
     }
 
-    context->surface = state->surface;
+    context->surface = state_ptr->surface;
     return true;
 }
 

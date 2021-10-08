@@ -26,8 +26,8 @@ typedef enum memory_tag {
     MEMORY_TAG_MAX_TAGS
 } memory_tag;
 
-SLN_API void initialize_memory();
-SLN_API void shutdown_memory();
+SLN_API void memory_system_initialize(u64* memory_requirement, void* state);
+SLN_API void memory_system_shutdown(void* state);
 
 SLN_API void* sln_allocate(u64 size, memory_tag tag);
 

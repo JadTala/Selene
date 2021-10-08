@@ -17,12 +17,14 @@ endif()
 # Debug flag
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG")
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -MD -Werror=vla -fdeclspec")
+
 if(WIN32)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -MD -Werror=vla -fdeclspec -DUNICODE")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DUNICODE")
 elseif(APPLE)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -MD -Werror=vla -fdeclspec -fPIC")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 elseif(LINUX)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -MD -Werror=vla -fdeclspec -fPIC")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
   	find_package(Threads REQUIRED)
 endif()
 
