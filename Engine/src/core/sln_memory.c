@@ -60,8 +60,9 @@ void* sln_allocate(u64 size, memory_tag tag) {
     }
 
     if (state_ptr) {
-        state_ptr->stats.total_allocated -= size;
-        state_ptr->stats.tagged_allocations[tag] -= size;
+        state_ptr->stats.total_allocated += size;
+        state_ptr->stats.tagged_allocations[tag] += size;
+        state_ptr->alloc_count++;
     }
 
     // TODO: Memory alignment
@@ -75,8 +76,10 @@ void sln_free(void* block, u64 size, memory_tag tag) {
         SLN_WARN("sln_free called using MEMORY_TAG_UNKNOWN. Re-class this allocation.");
     }
 
-    state_ptr->stats.total_allocated -= size;
-    state_ptr->stats.tagged_allocations[tag] -= size;
+    if (state_ptr) {
+        state_ptr->stats.total_allocated -= size;
+        state_ptr->stats.tagged_allocations[tag] -= size;
+    }
 
     // TODO: Memory alignment
     platform_free(block, false);
