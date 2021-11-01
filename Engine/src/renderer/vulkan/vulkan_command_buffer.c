@@ -3,10 +3,11 @@
 #include "core/sln_memory.h"
 
 void vulkan_command_buffer_allocate(
-    vulkan_context* context,
+    vulkan_context *context,
     VkCommandPool pool,
     b8 is_primary,
-    vulkan_command_buffer* out_command_buffer) {
+    vulkan_command_buffer *out_command_buffer)
+{
 
     sln_zero_memory(out_command_buffer, sizeof(out_command_buffer));
 
@@ -25,9 +26,10 @@ void vulkan_command_buffer_allocate(
 }
 
 void vulkan_command_buffer_free(
-    vulkan_context* context,
+    vulkan_context *context,
     VkCommandPool pool,
-    vulkan_command_buffer* command_buffer) {
+    vulkan_command_buffer *command_buffer)
+{
     vkFreeCommandBuffers(
         context->device.logical_device,
         pool,
@@ -39,20 +41,24 @@ void vulkan_command_buffer_free(
 }
 
 void vulkan_command_buffer_begin(
-    vulkan_command_buffer* command_buffer,
+    vulkan_command_buffer *command_buffer,
     b8 is_single_use,
     b8 is_renderpass_continue,
-    b8 is_simultaneous_use) {
+    b8 is_simultaneous_use)
+{
 
     VkCommandBufferBeginInfo begin_info = {VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
     begin_info.flags = 0;
-    if (is_single_use) {
+    if (is_single_use)
+    {
         begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
     }
-    if (is_renderpass_continue) {
+    if (is_renderpass_continue)
+    {
         begin_info.flags |= VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT;
     }
-    if (is_simultaneous_use) {
+    if (is_simultaneous_use)
+    {
         begin_info.flags |= VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
     }
 
@@ -60,32 +66,37 @@ void vulkan_command_buffer_begin(
     command_buffer->state = COMMAND_BUFFER_STATE_RECORDING;
 }
 
-void vulkan_command_buffer_end(vulkan_command_buffer* command_buffer) {
+void vulkan_command_buffer_end(vulkan_command_buffer *command_buffer)
+{
     VK_CHECK(vkEndCommandBuffer(command_buffer->handle));
     command_buffer->state = COMMAND_BUFFER_STATE_RECORDING_ENDED;
 }
 
-void vulkan_command_buffer_update_submitted(vulkan_command_buffer* command_buffer) {
+void vulkan_command_buffer_update_submitted(vulkan_command_buffer *command_buffer)
+{
     command_buffer->state = COMMAND_BUFFER_STATE_SUBMITTED;
 }
 
-void vulkan_command_buffer_reset(vulkan_command_buffer* command_buffer) {
+void vulkan_command_buffer_reset(vulkan_command_buffer *command_buffer)
+{
     command_buffer->state = COMMAND_BUFFER_STATE_READY;
 }
 
 void vulkan_command_buffer_allocate_and_begin_single_use(
-    vulkan_context* context,
+    vulkan_context *context,
     VkCommandPool pool,
-    vulkan_command_buffer* out_command_buffer) {
+    vulkan_command_buffer *out_command_buffer)
+{
     vulkan_command_buffer_allocate(context, pool, true, out_command_buffer);
     vulkan_command_buffer_begin(out_command_buffer, true, false, false);
 }
 
 void vulkan_command_buffer_end_single_use(
-    vulkan_context* context,
+    vulkan_context *context,
     VkCommandPool pool,
-    vulkan_command_buffer* command_buffer,
-    VkQueue queue) {
+    vulkan_command_buffer *command_buffer,
+    VkQueue queue)
+{
 
     // End the command buffer.
     vulkan_command_buffer_end(command_buffer);
