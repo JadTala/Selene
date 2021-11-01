@@ -5,7 +5,8 @@
 struct game;
 
 // Application configuration.
-typedef struct application_config {
+typedef struct application_config
+{
     // Window starting position x axis, if applicable.
     i16 start_pos_x;
 
@@ -19,12 +20,11 @@ typedef struct application_config {
     i16 start_height;
 
     // The application name used in windowing, if applicable.
-    char* name;
+    char *name;
 } application_config;
 
-
-SLN_API b8 application_create(struct game* game_inst);
+SLN_API b8 application_create(struct game *game_inst);
 
 SLN_API b8 application_run();
 
-void application_get_framebuffer_size(u32* width, u32* height);
+void application_get_framebuffer_size(u32 *width, u32 *height);

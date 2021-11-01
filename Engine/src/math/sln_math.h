@@ -45,7 +45,8 @@ SLN_API f32 sln_abs(f32 x);
  * @param value The value to be interpreted.
  * @returns True if a power of 2, otherwise false.
  */
-SLN_INLINE b8 is_power_of_2(u64 value) {
+SLN_INLINE b8 is_power_of_2(u64 value)
+{
     return (value != 0) && ((value & (value - 1)) == 0);
 }
 
@@ -66,7 +67,8 @@ SLN_API f32 fsln_random_in_range(f32 min, f32 max);
  * @param y The y value.
  * @return A new 2-element vector.
  */
-SLN_INLINE vec2 vec2_create(f32 x, f32 y) {
+SLN_INLINE vec2 vec2_create(f32 x, f32 y)
+{
     vec2 out_vector;
     out_vector.x = x;
     out_vector.y = y;
@@ -76,42 +78,48 @@ SLN_INLINE vec2 vec2_create(f32 x, f32 y) {
 /**
  * @brief Creates and returns a 2-component vector with all components set to 0.0f.
  */
-SLN_INLINE vec2 vec2_zero() {
+SLN_INLINE vec2 vec2_zero()
+{
     return (vec2){0.0f, 0.0f};
 }
 
 /**
  * @brief Creates and returns a 2-component vector with all components set to 1.0f.
  */
-SLN_INLINE vec2 vec2_one() {
+SLN_INLINE vec2 vec2_one()
+{
     return (vec2){1.0f, 1.0f};
 }
 
 /**
  * @brief Creates and returns a 2-component vector pointing up (0, 1).
  */
-SLN_INLINE vec2 vec2_up() {
+SLN_INLINE vec2 vec2_up()
+{
     return (vec2){0.0f, 1.0f};
 }
 
 /**
  * @brief Creates and returns a 2-component vector pointing down (0, -1).
  */
-SLN_INLINE vec2 vec2_down() {
+SLN_INLINE vec2 vec2_down()
+{
     return (vec2){0.0f, -1.0f};
 }
 
 /**
  * @brief Creates and returns a 2-component vector pointing left (-1, 0).
  */
-SLN_INLINE vec2 vec2_left() {
+SLN_INLINE vec2 vec2_left()
+{
     return (vec2){-1.0f, 0.0f};
 }
 
 /**
  * @brief Creates and returns a 2-component vector pointing right (1, 0).
  */
-SLN_INLINE vec2 vec2_right() {
+SLN_INLINE vec2 vec2_right()
+{
     return (vec2){1.0f, 0.0f};
 }
 
@@ -122,7 +130,8 @@ SLN_INLINE vec2 vec2_right() {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec2 vec2_add(vec2 vector_0, vec2 vector_1) {
+SLN_INLINE vec2 vec2_add(vec2 vector_0, vec2 vector_1)
+{
     return (vec2){
         vector_0.x + vector_1.x,
         vector_0.y + vector_1.y};
@@ -135,7 +144,8 @@ SLN_INLINE vec2 vec2_add(vec2 vector_0, vec2 vector_1) {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec2 vec2_sub(vec2 vector_0, vec2 vector_1) {
+SLN_INLINE vec2 vec2_sub(vec2 vector_0, vec2 vector_1)
+{
     return (vec2){
         vector_0.x - vector_1.x,
         vector_0.y - vector_1.y};
@@ -148,7 +158,8 @@ SLN_INLINE vec2 vec2_sub(vec2 vector_0, vec2 vector_1) {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec2 vec2_mul(vec2 vector_0, vec2 vector_1) {
+SLN_INLINE vec2 vec2_mul(vec2 vector_0, vec2 vector_1)
+{
     return (vec2){
         vector_0.x * vector_1.x,
         vector_0.y * vector_1.y};
@@ -161,7 +172,8 @@ SLN_INLINE vec2 vec2_mul(vec2 vector_0, vec2 vector_1) {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec2 vec2_div(vec2 vector_0, vec2 vector_1) {
+SLN_INLINE vec2 vec2_div(vec2 vector_0, vec2 vector_1)
+{
     return (vec2){
         vector_0.x / vector_1.x,
         vector_0.y / vector_1.y};
@@ -173,7 +185,8 @@ SLN_INLINE vec2 vec2_div(vec2 vector_0, vec2 vector_1) {
  * @param vector The vector to retrieve the squared length of.
  * @return The squared length.
  */
-SLN_INLINE f32 vec2_length_squared(vec2 vector) {
+SLN_INLINE f32 vec2_length_squared(vec2 vector)
+{
     return vector.x * vector.x + vector.y * vector.y;
 }
 
@@ -183,7 +196,8 @@ SLN_INLINE f32 vec2_length_squared(vec2 vector) {
  * @param vector The vector to retrieve the length of.
  * @return The length.
  */
-SLN_INLINE f32 vec2_length(vec2 vector) {
+SLN_INLINE f32 vec2_length(vec2 vector)
+{
     return sln_sqrt(vec2_length_squared(vector));
 }
 
@@ -192,7 +206,8 @@ SLN_INLINE f32 vec2_length(vec2 vector) {
  * 
  * @param vector A pointer to the vector to be normalized.
  */
-SLN_INLINE void vec2_normalize(vec2* vector) {
+SLN_INLINE void vec2_normalize(vec2 *vector)
+{
     const f32 length = vec2_length(*vector);
     vector->x /= length;
     vector->y /= length;
@@ -204,7 +219,8 @@ SLN_INLINE void vec2_normalize(vec2* vector) {
  * @param vector The vector to be normalized.
  * @return A normalized copy of the supplied vector 
  */
-SLN_INLINE vec2 vec2_normalized(vec2 vector) {
+SLN_INLINE vec2 vec2_normalized(vec2 vector)
+{
     vec2_normalize(&vector);
     return vector;
 }
@@ -218,12 +234,15 @@ SLN_INLINE vec2 vec2_normalized(vec2 vector) {
  * @param tolerance The difference tolerance. Typically SLN_FLOAT_EPSILON or similar.
  * @return True if within tolerance; otherwise false. 
  */
-SLN_INLINE b8 vec2_compare(vec2 vector_0, vec2 vector_1, f32 tolerance) {
-    if (sln_abs(vector_0.x - vector_1.x) > tolerance) {
+SLN_INLINE b8 vec2_compare(vec2 vector_0, vec2 vector_1, f32 tolerance)
+{
+    if (sln_abs(vector_0.x - vector_1.x) > tolerance)
+    {
         return false;
     }
 
-    if (sln_abs(vector_0.y - vector_1.y) > tolerance) {
+    if (sln_abs(vector_0.y - vector_1.y) > tolerance)
+    {
         return false;
     }
 
@@ -237,7 +256,8 @@ SLN_INLINE b8 vec2_compare(vec2 vector_0, vec2 vector_1, f32 tolerance) {
  * @param vector_1 The second vector.
  * @return The distance between vector_0 and vector_1.
  */
-SLN_INLINE f32 vec2_distance(vec2 vector_0, vec2 vector_1) {
+SLN_INLINE f32 vec2_distance(vec2 vector_0, vec2 vector_1)
+{
     vec2 d = (vec2){
         vector_0.x - vector_1.x,
         vector_0.y - vector_1.y};
@@ -256,7 +276,8 @@ SLN_INLINE f32 vec2_distance(vec2 vector_0, vec2 vector_1) {
  * @param z The z value.
  * @return A new 3-element vector.
  */
-SLN_INLINE vec3 vec3_create(f32 x, f32 y, f32 z) {
+SLN_INLINE vec3 vec3_create(f32 x, f32 y, f32 z)
+{
     return (vec3){x, y, z};
 }
 
@@ -267,7 +288,8 @@ SLN_INLINE vec3 vec3_create(f32 x, f32 y, f32 z) {
  * @param vector The 4-component vector to extract from.
  * @return A new vec3 
  */
-SLN_INLINE vec3 vec3_from_vec4(vec4 vector) {
+SLN_INLINE vec3 vec3_from_vec4(vec4 vector)
+{
     return (vec3){vector.x, vector.y, vector.z};
 }
 
@@ -278,63 +300,72 @@ SLN_INLINE vec3 vec3_from_vec4(vec4 vector) {
  * @param w The w component.
  * @return A new vec4 
  */
-SLN_INLINE vec4 vec3_to_vec4(vec3 vector, f32 w) {
+SLN_INLINE vec4 vec3_to_vec4(vec3 vector, f32 w)
+{
     return (vec4){vector.x, vector.y, vector.z, w};
 }
 
 /**
  * @brief Creates and returns a 3-component vector with all components set to 0.0f.
  */
-SLN_INLINE vec3 vec3_zero() {
+SLN_INLINE vec3 vec3_zero()
+{
     return (vec3){0.0f, 0.0f, 0.0f};
 }
 
 /**
  * @brief Creates and returns a 3-component vector with all components set to 1.0f.
  */
-SLN_INLINE vec3 vec3_one() {
+SLN_INLINE vec3 vec3_one()
+{
     return (vec3){1.0f, 1.0f, 1.0f};
 }
 
 /**
  * @brief Creates and returns a 3-component vector pointing up (0, 1, 0).
  */
-SLN_INLINE vec3 vec3_up() {
+SLN_INLINE vec3 vec3_up()
+{
     return (vec3){0.0f, 1.0f, 0.0f};
 }
 
 /**
  * @brief Creates and returns a 3-component vector pointing down (0, -1, 0).
  */
-SLN_INLINE vec3 vec3_down() {
+SLN_INLINE vec3 vec3_down()
+{
     return (vec3){0.0f, -1.0f, 0.0f};
 }
 
 /**
  * @brief Creates and returns a 3-component vector pointing left (-1, 0, 0).
  */
-SLN_INLINE vec3 vec3_left() {
+SLN_INLINE vec3 vec3_left()
+{
     return (vec3){-1.0f, 0.0f, 0.0f};
 }
 
 /**
  * @brief Creates and returns a 3-component vector pointing right (1, 0, 0).
  */
-SLN_INLINE vec3 vec3_right() {
+SLN_INLINE vec3 vec3_right()
+{
     return (vec3){1.0f, 0.0f, 0.0f};
 }
 
 /**
  * @brief Creates and returns a 3-component vector pointing forward (0, 0, -1).
  */
-SLN_INLINE vec3 vec3_forward() {
+SLN_INLINE vec3 vec3_forward()
+{
     return (vec3){0.0f, 0.0f, -1.0f};
 }
 
 /**
  * @brief Creates and returns a 3-component vector pointing backward (0, 0, 1).
  */
-SLN_INLINE vec3 vec3_back() {
+SLN_INLINE vec3 vec3_back()
+{
     return (vec3){0.0f, 0.0f, 1.0f};
 }
 
@@ -345,7 +376,8 @@ SLN_INLINE vec3 vec3_back() {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec3 vec3_add(vec3 vector_0, vec3 vector_1) {
+SLN_INLINE vec3 vec3_add(vec3 vector_0, vec3 vector_1)
+{
     return (vec3){
         vector_0.x + vector_1.x,
         vector_0.y + vector_1.y,
@@ -359,7 +391,8 @@ SLN_INLINE vec3 vec3_add(vec3 vector_0, vec3 vector_1) {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec3 vec3_sub(vec3 vector_0, vec3 vector_1) {
+SLN_INLINE vec3 vec3_sub(vec3 vector_0, vec3 vector_1)
+{
     return (vec3){
         vector_0.x - vector_1.x,
         vector_0.y - vector_1.y,
@@ -373,7 +406,8 @@ SLN_INLINE vec3 vec3_sub(vec3 vector_0, vec3 vector_1) {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec3 vec3_mul(vec3 vector_0, vec3 vector_1) {
+SLN_INLINE vec3 vec3_mul(vec3 vector_0, vec3 vector_1)
+{
     return (vec3){
         vector_0.x * vector_1.x,
         vector_0.y * vector_1.y,
@@ -387,7 +421,8 @@ SLN_INLINE vec3 vec3_mul(vec3 vector_0, vec3 vector_1) {
  * @param scalar The scalar value.
  * @return A copy of the resulting vector.
  */
-SLN_INLINE vec3 vec3_mul_scalar(vec3 vector_0, f32 scalar) {
+SLN_INLINE vec3 vec3_mul_scalar(vec3 vector_0, f32 scalar)
+{
     return (vec3){
         vector_0.x * scalar,
         vector_0.y * scalar,
@@ -401,7 +436,8 @@ SLN_INLINE vec3 vec3_mul_scalar(vec3 vector_0, f32 scalar) {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec3 vec3_div(vec3 vector_0, vec3 vector_1) {
+SLN_INLINE vec3 vec3_div(vec3 vector_0, vec3 vector_1)
+{
     return (vec3){
         vector_0.x / vector_1.x,
         vector_0.y / vector_1.y,
@@ -414,7 +450,8 @@ SLN_INLINE vec3 vec3_div(vec3 vector_0, vec3 vector_1) {
  * @param vector The vector to retrieve the squared length of.
  * @return The squared length.
  */
-SLN_INLINE f32 vec3_length_squared(vec3 vector) {
+SLN_INLINE f32 vec3_length_squared(vec3 vector)
+{
     return vector.x * vector.x + vector.y * vector.y + vector.z * vector.z;
 }
 
@@ -424,7 +461,8 @@ SLN_INLINE f32 vec3_length_squared(vec3 vector) {
  * @param vector The vector to retrieve the length of.
  * @return The length.
  */
-SLN_INLINE f32 vec3_length(vec3 vector) {
+SLN_INLINE f32 vec3_length(vec3 vector)
+{
     return sln_sqrt(vec3_length_squared(vector));
 }
 
@@ -433,7 +471,8 @@ SLN_INLINE f32 vec3_length(vec3 vector) {
  * 
  * @param vector A pointer to the vector to be normalized.
  */
-SLN_INLINE void vec3_normalize(vec3* vector) {
+SLN_INLINE void vec3_normalize(vec3 *vector)
+{
     const f32 length = vec3_length(*vector);
     vector->x /= length;
     vector->y /= length;
@@ -446,7 +485,8 @@ SLN_INLINE void vec3_normalize(vec3* vector) {
  * @param vector The vector to be normalized.
  * @return A normalized copy of the supplied vector 
  */
-SLN_INLINE vec3 vec3_normalized(vec3 vector) {
+SLN_INLINE vec3 vec3_normalized(vec3 vector)
+{
     vec3_normalize(&vector);
     return vector;
 }
@@ -459,7 +499,8 @@ SLN_INLINE vec3 vec3_normalized(vec3 vector) {
  * @param vector_1 The second vector.
  * @return The dot product. 
  */
-SLN_INLINE f32 vec3_dot(vec3 vector_0, vec3 vector_1) {
+SLN_INLINE f32 vec3_dot(vec3 vector_0, vec3 vector_1)
+{
     f32 p = 0;
     p += vector_0.x * vector_1.x;
     p += vector_0.y * vector_1.y;
@@ -475,7 +516,8 @@ SLN_INLINE f32 vec3_dot(vec3 vector_0, vec3 vector_1) {
  * @param vector_1 The second vector.
  * @return The cross product. 
  */
-SLN_INLINE vec3 vec3_cross(vec3 vector_0, vec3 vector_1) {
+SLN_INLINE vec3 vec3_cross(vec3 vector_0, vec3 vector_1)
+{
     return (vec3){
         vector_0.y * vector_1.z - vector_0.z * vector_1.y,
         vector_0.z * vector_1.x - vector_0.x * vector_1.z,
@@ -491,16 +533,20 @@ SLN_INLINE vec3 vec3_cross(vec3 vector_0, vec3 vector_1) {
  * @param tolerance The difference tolerance. Typically SLN_FLOAT_EPSILON or similar.
  * @return True if within tolerance; otherwise false. 
  */
-SLN_INLINE const b8 vec3_compare(vec3 vector_0, vec3 vector_1, f32 tolerance) {
-    if (sln_abs(vector_0.x - vector_1.x) > tolerance) {
+SLN_INLINE const b8 vec3_compare(vec3 vector_0, vec3 vector_1, f32 tolerance)
+{
+    if (sln_abs(vector_0.x - vector_1.x) > tolerance)
+    {
         return false;
     }
 
-    if (sln_abs(vector_0.y - vector_1.y) > tolerance) {
+    if (sln_abs(vector_0.y - vector_1.y) > tolerance)
+    {
         return false;
     }
 
-    if (sln_abs(vector_0.z - vector_1.z) > tolerance) {
+    if (sln_abs(vector_0.z - vector_1.z) > tolerance)
+    {
         return false;
     }
 
@@ -514,14 +560,14 @@ SLN_INLINE const b8 vec3_compare(vec3 vector_0, vec3 vector_1, f32 tolerance) {
  * @param vector_1 The second vector.
  * @return The distance between vector_0 and vector_1.
  */
-SLN_INLINE f32 vec3_distance(vec3 vector_0, vec3 vector_1) {
+SLN_INLINE f32 vec3_distance(vec3 vector_0, vec3 vector_1)
+{
     vec3 d = (vec3){
         vector_0.x - vector_1.x,
         vector_0.y - vector_1.y,
         vector_0.z - vector_1.z};
     return vec3_length(d);
 }
-
 
 // ------------------------------------------
 // Vector 4
@@ -536,7 +582,8 @@ SLN_INLINE f32 vec3_distance(vec3 vector_0, vec3 vector_1) {
  * @param w The w value.
  * @return A new 4-element vector.
  */
-SLN_INLINE vec4 vec4_create(f32 x, f32 y, f32 z, f32 w) {
+SLN_INLINE vec4 vec4_create(f32 x, f32 y, f32 z, f32 w)
+{
     vec4 out_vector;
 #if defined(SLN_USE_SIMD)
     out_vector.data = _mm_setr_ps(x, y, z, w);
@@ -556,7 +603,8 @@ SLN_INLINE vec4 vec4_create(f32 x, f32 y, f32 z, f32 w) {
  * @param vector The 4-component vector to extract from.
  * @return A new vec3 
  */
-SLN_INLINE vec3 vec4_to_vec3(vec4 vector) {
+SLN_INLINE vec3 vec4_to_vec3(vec4 vector)
+{
     return (vec3){vector.x, vector.y, vector.z};
 }
 
@@ -567,7 +615,8 @@ SLN_INLINE vec3 vec4_to_vec3(vec4 vector) {
  * @param w The w component.
  * @return A new vec4 
  */
-SLN_INLINE vec4 vec4_from_vec3(vec3 vector, f32 w) {
+SLN_INLINE vec4 vec4_from_vec3(vec3 vector, f32 w)
+{
 #if defined(SLN_USE_SIMD)
     vec4 out_vector;
     out_vector.data = _mm_setr_ps(x, y, z, w);
@@ -580,14 +629,16 @@ SLN_INLINE vec4 vec4_from_vec3(vec3 vector, f32 w) {
 /**
  * @brief Creates and returns a 3-component vector with all components set to 0.0f.
  */
-SLN_INLINE vec4 vec4_zero() {
+SLN_INLINE vec4 vec4_zero()
+{
     return (vec4){0.0f, 0.0f, 0.0f, 0.0f};
 }
 
 /**
  * @brief Creates and returns a 3-component vector with all components set to 1.0f.
  */
-SLN_INLINE vec4 vec4_one() {
+SLN_INLINE vec4 vec4_one()
+{
     return (vec4){1.0f, 1.0f, 1.0f, 1.0f};
 }
 
@@ -598,9 +649,11 @@ SLN_INLINE vec4 vec4_one() {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec4 vec4_add(vec4 vector_0, vec4 vector_1) {
+SLN_INLINE vec4 vec4_add(vec4 vector_0, vec4 vector_1)
+{
     vec4 result;
-     for (u64 i = 0; i < 4; ++i) {
+    for (u64 i = 0; i < 4; ++i)
+    {
         result.elements[i] = vector_0.elements[i] + vector_1.elements[i];
     }
     return result;
@@ -613,9 +666,11 @@ SLN_INLINE vec4 vec4_add(vec4 vector_0, vec4 vector_1) {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec4 vec4_sub(vec4 vector_0, vec4 vector_1) {
+SLN_INLINE vec4 vec4_sub(vec4 vector_0, vec4 vector_1)
+{
     vec4 result;
-    for (u64 i = 0; i < 4; ++i) {
+    for (u64 i = 0; i < 4; ++i)
+    {
         result.elements[i] = vector_0.elements[i] - vector_1.elements[i];
     }
     return result;
@@ -628,9 +683,11 @@ SLN_INLINE vec4 vec4_sub(vec4 vector_0, vec4 vector_1) {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec4 vec4_mul(vec4 vector_0, vec4 vector_1) {
+SLN_INLINE vec4 vec4_mul(vec4 vector_0, vec4 vector_1)
+{
     vec4 result;
-    for (u64 i = 0; i < 4; ++i) {
+    for (u64 i = 0; i < 4; ++i)
+    {
         result.elements[i] = vector_0.elements[i] * vector_1.elements[i];
     }
     return result;
@@ -643,9 +700,11 @@ SLN_INLINE vec4 vec4_mul(vec4 vector_0, vec4 vector_1) {
  * @param vector_1 The second vector.
  * @return The resulting vector. 
  */
-SLN_INLINE vec4 vec4_div(vec4 vector_0, vec4 vector_1) {
+SLN_INLINE vec4 vec4_div(vec4 vector_0, vec4 vector_1)
+{
     vec4 result;
-    for (u64 i = 0; i < 4; ++i) {
+    for (u64 i = 0; i < 4; ++i)
+    {
         result.elements[i] = vector_0.elements[i] / vector_1.elements[i];
     }
     return result;
@@ -657,7 +716,8 @@ SLN_INLINE vec4 vec4_div(vec4 vector_0, vec4 vector_1) {
  * @param vector The vector to retrieve the squared length of.
  * @return The squared length.
  */
-SLN_INLINE f32 vec4_length_squared(vec4 vector) {
+SLN_INLINE f32 vec4_length_squared(vec4 vector)
+{
     return vector.x * vector.x + vector.y * vector.y + vector.z * vector.z + vector.w * vector.w;
 }
 
@@ -667,7 +727,8 @@ SLN_INLINE f32 vec4_length_squared(vec4 vector) {
  * @param vector The vector to retrieve the length of.
  * @return The length.
  */
-SLN_INLINE f32 vec4_length(vec4 vector) {
+SLN_INLINE f32 vec4_length(vec4 vector)
+{
     return sln_sqrt(vec4_length_squared(vector));
 }
 
@@ -676,7 +737,8 @@ SLN_INLINE f32 vec4_length(vec4 vector) {
  * 
  * @param vector A pointer to the vector to be normalized.
  */
-SLN_INLINE void vec4_normalize(vec4* vector) {
+SLN_INLINE void vec4_normalize(vec4 *vector)
+{
     const f32 length = vec4_length(*vector);
     vector->x /= length;
     vector->y /= length;
@@ -690,14 +752,16 @@ SLN_INLINE void vec4_normalize(vec4* vector) {
  * @param vector The vector to be normalized.
  * @return A normalized copy of the supplied vector 
  */
-SLN_INLINE vec4 vec4_normalized(vec4 vector) {
+SLN_INLINE vec4 vec4_normalized(vec4 vector)
+{
     vec4_normalize(&vector);
     return vector;
 }
 
 SLN_INLINE f32 vec4_dot_f32(
     f32 a0, f32 a1, f32 a2, f32 a3,
-    f32 b0, f32 b1, f32 b2, f32 b3) {
+    f32 b0, f32 b1, f32 b2, f32 b3)
+{
     f32 p;
     p =
         a0 * b0 +
@@ -719,7 +783,8 @@ SLN_INLINE f32 vec4_dot_f32(
  * 
  * @return A new identity matrix 
  */
-SLN_INLINE mat4 mat4_identity() {
+SLN_INLINE mat4 mat4_identity()
+{
     mat4 out_matrix;
     sln_zero_memory(out_matrix.data, sizeof(f32) * 16);
     out_matrix.data[0] = 1.0f;
@@ -736,15 +801,18 @@ SLN_INLINE mat4 mat4_identity() {
  * @param matrix_1 The second matrix to be multiplied.
  * @return The result of the matrix multiplication.
  */
-SLN_INLINE mat4 mat4_mul(mat4 matrix_0, mat4 matrix_1) {
+SLN_INLINE mat4 mat4_mul(mat4 matrix_0, mat4 matrix_1)
+{
     mat4 out_matrix = mat4_identity();
 
-    const f32* m1_ptr = matrix_0.data;
-    const f32* m2_ptr = matrix_1.data;
-    f32* dst_ptr = out_matrix.data;
+    const f32 *m1_ptr = matrix_0.data;
+    const f32 *m2_ptr = matrix_1.data;
+    f32 *dst_ptr = out_matrix.data;
 
-    for (i32 i = 0; i < 4; ++i) {
-        for (i32 j = 0; j < 4; ++j) {
+    for (i32 i = 0; i < 4; ++i)
+    {
+        for (i32 j = 0; j < 4; ++j)
+        {
             *dst_ptr =
                 m1_ptr[0] * m2_ptr[0 + j] +
                 m1_ptr[1] * m2_ptr[4 + j] +
@@ -769,7 +837,8 @@ SLN_INLINE mat4 mat4_mul(mat4 matrix_0, mat4 matrix_1) {
  * @param far_clip The far clipping plane distance.
  * @return A new orthographic projection matrix. 
  */
-SLN_INLINE mat4 mat4_orthographic(f32 left, f32 right, f32 bottom, f32 top, f32 near_clip, f32 far_clip) {
+SLN_INLINE mat4 mat4_orthographic(f32 left, f32 right, f32 bottom, f32 top, f32 near_clip, f32 far_clip)
+{
     mat4 out_matrix = mat4_identity();
 
     f32 lr = 1.0f / (left - right);
@@ -795,7 +864,8 @@ SLN_INLINE mat4 mat4_orthographic(f32 left, f32 right, f32 bottom, f32 top, f32 
  * @param far_clip The far clipping plane distance.
  * @return A new perspective matrix. 
  */
-SLN_INLINE mat4 mat4_perspective(f32 fov_radians, f32 aspect_ratio, f32 near_clip, f32 far_clip) {
+SLN_INLINE mat4 mat4_perspective(f32 fov_radians, f32 aspect_ratio, f32 near_clip, f32 far_clip)
+{
     f32 half_tan_fov = sln_tan(fov_radians * 0.5f);
     mat4 out_matrix;
     sln_zero_memory(out_matrix.data, sizeof(f32) * 16);
@@ -816,7 +886,8 @@ SLN_INLINE mat4 mat4_perspective(f32 fov_radians, f32 aspect_ratio, f32 near_cli
  * @param up The up vector.
  * @return A matrix looking at target from the perspective of position. 
  */
-SLN_INLINE mat4 mat4_look_at(vec3 position, vec3 target, vec3 up) {
+SLN_INLINE mat4 mat4_look_at(vec3 position, vec3 target, vec3 up)
+{
     mat4 out_matrix;
     vec3 z_axis;
     z_axis.x = target.x - position.x;
@@ -853,7 +924,8 @@ SLN_INLINE mat4 mat4_look_at(vec3 position, vec3 target, vec3 up) {
  * @param matrix The matrix to be transposed.
  * @return A transposed copy of of the provided matrix.
  */
-SLN_INLINE mat4 mat4_transposed(mat4 matrix) {
+SLN_INLINE mat4 mat4_transposed(mat4 matrix)
+{
     mat4 out_matrix = mat4_identity();
     out_matrix.data[0] = matrix.data[0];
     out_matrix.data[1] = matrix.data[4];
@@ -880,8 +952,9 @@ SLN_INLINE mat4 mat4_transposed(mat4 matrix) {
  * @param matrix The matrix to be inverted.
  * @return A inverted copy of the provided matrix. 
  */
-SLN_INLINE mat4 mat4_inverse(mat4 matrix) {
-    const f32* m = matrix.data;
+SLN_INLINE mat4 mat4_inverse(mat4 matrix)
+{
+    const f32 *m = matrix.data;
 
     f32 t0 = m[10] * m[15];
     f32 t1 = m[14] * m[11];
@@ -909,7 +982,7 @@ SLN_INLINE mat4 mat4_inverse(mat4 matrix) {
     f32 t23 = m[4] * m[1];
 
     mat4 out_matrix;
-    f32* o = out_matrix.data;
+    f32 *o = out_matrix.data;
 
     o[0] = (t0 * m[5] + t3 * m[9] + t4 * m[13]) - (t1 * m[5] + t2 * m[9] + t5 * m[13]);
     o[1] = (t1 * m[1] + t6 * m[9] + t9 * m[13]) - (t0 * m[1] + t7 * m[9] + t8 * m[13]);
@@ -938,7 +1011,8 @@ SLN_INLINE mat4 mat4_inverse(mat4 matrix) {
     return out_matrix;
 }
 
-SLN_INLINE mat4 mat4_translation(vec3 position) {
+SLN_INLINE mat4 mat4_translation(vec3 position)
+{
     mat4 out_matrix = mat4_identity();
     out_matrix.data[12] = position.x;
     out_matrix.data[13] = position.y;
@@ -952,7 +1026,8 @@ SLN_INLINE mat4 mat4_translation(vec3 position) {
  * @param scale The 3-component scale.
  * @return A scale matrix.
  */
-SLN_INLINE mat4 mat4_scale(vec3 scale) {
+SLN_INLINE mat4 mat4_scale(vec3 scale)
+{
     mat4 out_matrix = mat4_identity();
     out_matrix.data[0] = scale.x;
     out_matrix.data[5] = scale.y;
@@ -960,7 +1035,8 @@ SLN_INLINE mat4 mat4_scale(vec3 scale) {
     return out_matrix;
 }
 
-SLN_INLINE mat4 mat4_euler_x(f32 angle_radians) {
+SLN_INLINE mat4 mat4_euler_x(f32 angle_radians)
+{
     mat4 out_matrix = mat4_identity();
     f32 c = sln_cos(angle_radians);
     f32 s = sln_sin(angle_radians);
@@ -971,7 +1047,8 @@ SLN_INLINE mat4 mat4_euler_x(f32 angle_radians) {
     out_matrix.data[10] = c;
     return out_matrix;
 }
-SLN_INLINE mat4 mat4_euler_y(f32 angle_radians) {
+SLN_INLINE mat4 mat4_euler_y(f32 angle_radians)
+{
     mat4 out_matrix = mat4_identity();
     f32 c = sln_cos(angle_radians);
     f32 s = sln_sin(angle_radians);
@@ -982,7 +1059,8 @@ SLN_INLINE mat4 mat4_euler_y(f32 angle_radians) {
     out_matrix.data[10] = c;
     return out_matrix;
 }
-SLN_INLINE mat4 mat4_euler_z(f32 angle_radians) {
+SLN_INLINE mat4 mat4_euler_z(f32 angle_radians)
+{
     mat4 out_matrix = mat4_identity();
 
     f32 c = sln_cos(angle_radians);
@@ -994,7 +1072,8 @@ SLN_INLINE mat4 mat4_euler_z(f32 angle_radians) {
     out_matrix.data[5] = c;
     return out_matrix;
 }
-SLN_INLINE mat4 mat4_euler_xyz(f32 x_radians, f32 y_radians, f32 z_radians) {
+SLN_INLINE mat4 mat4_euler_xyz(f32 x_radians, f32 y_radians, f32 z_radians)
+{
     mat4 rx = mat4_euler_x(x_radians);
     mat4 ry = mat4_euler_y(y_radians);
     mat4 rz = mat4_euler_z(z_radians);
@@ -1009,7 +1088,8 @@ SLN_INLINE mat4 mat4_euler_xyz(f32 x_radians, f32 y_radians, f32 z_radians) {
  * @param matrix The matrix from which to base the vector.
  * @return A 3-component directional vector.
  */
-SLN_INLINE vec3 mat4_forward(mat4 matrix) {
+SLN_INLINE vec3 mat4_forward(mat4 matrix)
+{
     vec3 forward;
     forward.x = -matrix.data[2];
     forward.y = -matrix.data[6];
@@ -1024,7 +1104,8 @@ SLN_INLINE vec3 mat4_forward(mat4 matrix) {
  * @param matrix The matrix from which to base the vector.
  * @return A 3-component directional vector.
  */
-SLN_INLINE vec3 mat4_backward(mat4 matrix) {
+SLN_INLINE vec3 mat4_backward(mat4 matrix)
+{
     vec3 backward;
     backward.x = matrix.data[2];
     backward.y = matrix.data[6];
@@ -1039,7 +1120,8 @@ SLN_INLINE vec3 mat4_backward(mat4 matrix) {
  * @param matrix The matrix from which to base the vector.
  * @return A 3-component directional vector.
  */
-SLN_INLINE vec3 mat4_up(mat4 matrix) {
+SLN_INLINE vec3 mat4_up(mat4 matrix)
+{
     vec3 up;
     up.x = matrix.data[1];
     up.y = matrix.data[5];
@@ -1054,7 +1136,8 @@ SLN_INLINE vec3 mat4_up(mat4 matrix) {
  * @param matrix The matrix from which to base the vector.
  * @return A 3-component directional vector.
  */
-SLN_INLINE vec3 mat4_down(mat4 matrix) {
+SLN_INLINE vec3 mat4_down(mat4 matrix)
+{
     vec3 down;
     down.x = -matrix.data[1];
     down.y = -matrix.data[5];
@@ -1069,7 +1152,8 @@ SLN_INLINE vec3 mat4_down(mat4 matrix) {
  * @param matrix The matrix from which to base the vector.
  * @return A 3-component directional vector.
  */
-SLN_INLINE vec3 mat4_left(mat4 matrix) {
+SLN_INLINE vec3 mat4_left(mat4 matrix)
+{
     vec3 left;
     left.x = -matrix.data[0];
     left.y = -matrix.data[4];
@@ -1084,7 +1168,8 @@ SLN_INLINE vec3 mat4_left(mat4 matrix) {
  * @param matrix The matrix from which to base the vector.
  * @return A 3-component directional vector.
  */
-SLN_INLINE vec3 mat4_right(mat4 matrix) {
+SLN_INLINE vec3 mat4_right(mat4 matrix)
+{
     vec3 right;
     right.x = matrix.data[0];
     right.y = matrix.data[4];
@@ -1097,11 +1182,13 @@ SLN_INLINE vec3 mat4_right(mat4 matrix) {
 // Quaternion
 // ------------------------------------------
 
-SLN_INLINE quat quat_identity() {
+SLN_INLINE quat quat_identity()
+{
     return (quat){0, 0, 0, 1.0f};
 }
 
-SLN_INLINE f32 quat_normal(quat q) {
+SLN_INLINE f32 quat_normal(quat q)
+{
     return sln_sqrt(
         q.x * q.x +
         q.y * q.y +
@@ -1109,7 +1196,8 @@ SLN_INLINE f32 quat_normal(quat q) {
         q.w * q.w);
 }
 
-SLN_INLINE quat quat_normalize(quat q) {
+SLN_INLINE quat quat_normalize(quat q)
+{
     f32 normal = quat_normal(q);
     return (quat){
         q.x / normal,
@@ -1118,7 +1206,8 @@ SLN_INLINE quat quat_normalize(quat q) {
         q.w / normal};
 }
 
-SLN_INLINE quat quat_conjugate(quat q) {
+SLN_INLINE quat quat_conjugate(quat q)
+{
     return (quat){
         -q.x,
         -q.y,
@@ -1126,11 +1215,13 @@ SLN_INLINE quat quat_conjugate(quat q) {
         q.w};
 }
 
-SLN_INLINE quat quat_inverse(quat q) {
+SLN_INLINE quat quat_inverse(quat q)
+{
     return quat_normalize(quat_conjugate(q));
 }
 
-SLN_INLINE quat quat_mul(quat q_0, quat q_1) {
+SLN_INLINE quat quat_mul(quat q_0, quat q_1)
+{
     quat out_quaternion;
 
     out_quaternion.x = q_0.x * q_1.w +
@@ -1156,14 +1247,16 @@ SLN_INLINE quat quat_mul(quat q_0, quat q_1) {
     return out_quaternion;
 }
 
-SLN_INLINE f32 quat_dot(quat q_0, quat q_1) {
+SLN_INLINE f32 quat_dot(quat q_0, quat q_1)
+{
     return q_0.x * q_1.x +
            q_0.y * q_1.y +
            q_0.z * q_1.z +
            q_0.w * q_1.w;
 }
 
-SLN_INLINE mat4 quat_to_mat4(quat q) {
+SLN_INLINE mat4 quat_to_mat4(quat q)
+{
     mat4 out_matrix = mat4_identity();
 
     // https://stackoverflow.com/questions/1556260/convert-quaternion-rotation-to-rotation-matrix
@@ -1186,10 +1279,11 @@ SLN_INLINE mat4 quat_to_mat4(quat q) {
 }
 
 // Calculates a rotation matrix based on the quaternion and the passed in center point.
-SLN_INLINE mat4 quat_to_rotation_matrix(quat q, vec3 center) {
+SLN_INLINE mat4 quat_to_rotation_matrix(quat q, vec3 center)
+{
     mat4 out_matrix;
 
-    f32* o = out_matrix.data;
+    f32 *o = out_matrix.data;
     o[0] = (q.x * q.x) - (q.y * q.y) - (q.z * q.z) + (q.w * q.w);
     o[1] = 2.0f * ((q.x * q.y) + (q.z * q.w));
     o[2] = 2.0f * ((q.x * q.z) - (q.y * q.w));
@@ -1212,19 +1306,22 @@ SLN_INLINE mat4 quat_to_rotation_matrix(quat q, vec3 center) {
     return out_matrix;
 }
 
-SLN_INLINE quat quat_from_axis_angle(vec3 axis, f32 angle, b8 normalize) {
+SLN_INLINE quat quat_from_axis_angle(vec3 axis, f32 angle, b8 normalize)
+{
     const f32 half_angle = 0.5f * angle;
     f32 s = sln_sin(half_angle);
     f32 c = sln_cos(half_angle);
 
     quat q = (quat){s * axis.x, s * axis.y, s * axis.z, c};
-    if (normalize) {
+    if (normalize)
+    {
         return quat_normalize(q);
     }
     return q;
 }
 
-SLN_INLINE quat quat_slerp(quat q_0, quat q_1, f32 percentage) {
+SLN_INLINE quat quat_slerp(quat q_0, quat q_1, f32 percentage)
+{
     quat out_quaternion;
     // Source: https://en.wikipedia.org/wiki/Slerp
     // Only unit quaternions are valid rotations.
@@ -1239,7 +1336,8 @@ SLN_INLINE quat quat_slerp(quat q_0, quat q_1, f32 percentage) {
     // the shorter path. Note that v1 and -v1 are equivalent when
     // the negation is applied to all four components. Fix by
     // reversing one quaternion.
-    if (dot < 0.0f) {
+    if (dot < 0.0f)
+    {
         v1.x = -v1.x;
         v1.y = -v1.y;
         v1.z = -v1.z;
@@ -1248,7 +1346,8 @@ SLN_INLINE quat quat_slerp(quat q_0, quat q_1, f32 percentage) {
     }
 
     const f32 DOT_THRESHOLD = 0.9995f;
-    if (dot > DOT_THRESHOLD) {
+    if (dot > DOT_THRESHOLD)
+    {
         // If the inputs are too close for comfort, linearly interpolate
         // and normalize the result.
         out_quaternion = (quat){
@@ -1261,12 +1360,12 @@ SLN_INLINE quat quat_slerp(quat q_0, quat q_1, f32 percentage) {
     }
 
     // Since dot is in range [0, DOT_THRESHOLD], acos is safe
-    f32 theta_0 = sln_acos(dot);          // theta_0 = angle between input vectors
-    f32 theta = theta_0 * percentage;  // theta = angle between v0 and result
-    f32 sin_theta = sln_sin(theta);       // compute this value only once
-    f32 sin_theta_0 = sln_sin(theta_0);   // compute this value only once
+    f32 theta_0 = sln_acos(dot);        // theta_0 = angle between input vectors
+    f32 theta = theta_0 * percentage;   // theta = angle between v0 and result
+    f32 sin_theta = sln_sin(theta);     // compute this value only once
+    f32 sin_theta_0 = sln_sin(theta_0); // compute this value only once
 
-    f32 s0 = sln_cos(theta) - dot * sin_theta / sin_theta_0;  // == sin(theta_0 - theta) / sin(theta_0)
+    f32 s0 = sln_cos(theta) - dot * sin_theta / sin_theta_0; // == sin(theta_0 - theta) / sin(theta_0)
     f32 s1 = sin_theta / sin_theta_0;
 
     return (quat){
@@ -1282,7 +1381,8 @@ SLN_INLINE quat quat_slerp(quat q_0, quat q_1, f32 percentage) {
  * @param degrees The degrees to be converted.
  * @return The amount in radians.
  */
-SLN_INLINE f32 deg_to_rad(f32 degrees) {
+SLN_INLINE f32 deg_to_rad(f32 degrees)
+{
     return degrees * SLN_DEG2RAD_MULTIPLIER;
 }
 
@@ -1292,6 +1392,7 @@ SLN_INLINE f32 deg_to_rad(f32 degrees) {
  * @param radians The radians to be converted.
  * @return The amount in degrees.
  */
-SLN_INLINE f32 rad_to_deg(f32 radians) {
+SLN_INLINE f32 rad_to_deg(f32 radians)
+{
     return radians * SLN_RAD2DEG_MULTIPLIER;
 }

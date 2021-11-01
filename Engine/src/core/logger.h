@@ -13,7 +13,8 @@
 #define LOG_TRACE_ENABLED 0
 #endif
 
-typedef enum log_level {
+typedef enum log_level
+{
     LOG_LEVEL_FATAL = 0,
     LOG_LEVEL_ERROR = 1,
     LOG_LEVEL_WARN = 2,
@@ -30,10 +31,10 @@ typedef enum log_level {
  * @param state 0 if just requesting memory requirement, otherwise allocated block of memory.
  * @return b8 True on success; otherwise false.
  */
-b8 initialize_logging(u64* memory_requirement, void* state);
-void shutdown_logging(void* state);
+b8 initialize_logging(u64 *memory_requirement, void *state);
+void shutdown_logging(void *state);
 
-SLN_API void log_output(log_level level, const char* message, ...);
+SLN_API void log_output(log_level level, const char *message, ...);
 
 // Logs a fatal-level message.
 #define SLN_FATAL(message, ...) log_output(LOG_LEVEL_FATAL, message, ##__VA_ARGS__);

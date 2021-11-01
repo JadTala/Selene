@@ -7,7 +7,7 @@
  * @param get_extended Indicates whether to also return an extended result.
  * @returns The error code and/or extended error message in string form. Defaults to success for unknown result types.
  */
-const char* vulkan_result_string(VkResult result, b8 get_extended);
+const char *vulkan_result_string(VkResult result, b8 get_extended);
 
 /**
  * Inticates if the passed result is a success or an error as defined by the Vulkan spec.

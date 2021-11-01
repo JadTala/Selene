@@ -3,12 +3,13 @@
 #include "core/sln_memory.h"
 
 void vulkan_renderpass_create(
-    vulkan_context* context,
-    vulkan_renderpass* out_renderpass,
+    vulkan_context *context,
+    vulkan_renderpass *out_renderpass,
     f32 x, f32 y, f32 w, f32 h,
     f32 r, f32 g, f32 b, f32 a,
     f32 depth,
-    u32 stencil) {
+    u32 stencil)
+{
     out_renderpass->x = x;
     out_renderpass->y = y;
     out_renderpass->w = w;
@@ -38,14 +39,14 @@ void vulkan_renderpass_create(
     color_attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
     color_attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
     color_attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-    color_attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;      // Do not expect any particular layout before render pass starts.
-    color_attachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;  // Transitioned to after the render pass
+    color_attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;     // Do not expect any particular layout before render pass starts.
+    color_attachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR; // Transitioned to after the render pass
     color_attachment.flags = 0;
 
     attachment_descriptions[0] = color_attachment;
 
     VkAttachmentReference color_attachment_reference;
-    color_attachment_reference.attachment = 0;  // Attachment description array index
+    color_attachment_reference.attachment = 0; // Attachment description array index
     color_attachment_reference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
     subpass.colorAttachmentCount = 1;
@@ -113,17 +114,20 @@ void vulkan_renderpass_create(
         &out_renderpass->handle));
 }
 
-void vulkan_renderpass_destroy(vulkan_context* context, vulkan_renderpass* renderpass) {
-    if (renderpass && renderpass->handle) {
+void vulkan_renderpass_destroy(vulkan_context *context, vulkan_renderpass *renderpass)
+{
+    if (renderpass && renderpass->handle)
+    {
         vkDestroyRenderPass(context->device.logical_device, renderpass->handle, context->allocator);
         renderpass->handle = 0;
     }
 }
 
 void vulkan_renderpass_begin(
-    vulkan_command_buffer* command_buffer,
-    vulkan_renderpass* renderpass,
-    VkFramebuffer frame_buffer) {
+    vulkan_command_buffer *command_buffer,
+    vulkan_renderpass *renderpass,
+    VkFramebuffer frame_buffer)
+{
 
     VkRenderPassBeginInfo begin_info = {VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO};
     begin_info.renderPass = renderpass->handle;
@@ -149,7 +153,8 @@ void vulkan_renderpass_begin(
     command_buffer->state = COMMAND_BUFFER_STATE_IN_RENDER_PASS;
 }
 
-void vulkan_renderpass_end(vulkan_command_buffer* command_buffer, vulkan_renderpass* renderpass) {
+void vulkan_renderpass_end(vulkan_command_buffer *command_buffer, vulkan_renderpass *renderpass)
+{
     vkCmdEndRenderPass(command_buffer->handle);
     command_buffer->state = COMMAND_BUFFER_STATE_RECORDING;
 }

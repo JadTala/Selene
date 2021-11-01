@@ -2,9 +2,11 @@
 
 #include "defines.h"
 
-typedef struct event_context {
+typedef struct event_context
+{
     // 128 bytes
-    union {
+    union
+    {
         i64 i64[2];
         u64 u64[2];
         f64 f64[2];
@@ -24,7 +26,7 @@ typedef struct event_context {
 } event_context;
 
 // Should return true if handled.
-typedef b8 (*PFN_on_event)(u16 code, void* sender, void* listener_inst, event_context data);
+typedef b8 (*PFN_on_event)(u16 code, void *sender, void *listener_inst, event_context data);
 
 void event_system_initialize();
 void event_system_shutdown();
@@ -37,7 +39,7 @@ void event_system_shutdown();
  * @param on_event The callback function pointer to be invoked when the event code is fired.
  * @returns true if the event is successfully registered; otherwise false.
  */
-SLN_API b8 event_register(u16 code, void* listener, PFN_on_event on_event);
+SLN_API b8 event_register(u16 code, void *listener, PFN_on_event on_event);
 
 /**
  * Unregister from listening for when events are sent with the provided code. If no matching
@@ -47,7 +49,7 @@ SLN_API b8 event_register(u16 code, void* listener, PFN_on_event on_event);
  * @param on_event The callback function pointer to be unregistered.
  * @returns true if the event is successfully unregistered; otherwise false.
  */
-SLN_API b8 event_unregister(u16 code, void* listener, PFN_on_event on_event);
+SLN_API b8 event_unregister(u16 code, void *listener, PFN_on_event on_event);
 
 /**
  * Fires an event to listeners of the given code. If an event handler returns 
@@ -57,10 +59,11 @@ SLN_API b8 event_unregister(u16 code, void* listener, PFN_on_event on_event);
  * @param data The event data.
  * @returns true if handled, otherwise false.
  */
-SLN_API b8 event_fire(u16 code, void* sender, event_context context);
+SLN_API b8 event_fire(u16 code, void *sender, event_context context);
 
 // System internal event codes. Application should use codes beyond 255.
-typedef enum system_event_code {
+typedef enum system_event_code
+{
     // Shuts the application down on the next frame.
     EVENT_CODE_APPLICATION_QUIT = 0x01,
 

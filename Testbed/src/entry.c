@@ -4,7 +4,8 @@
 
 #include <core/sln_memory.h>
 
-b8 create_game(game* out_game) {
+b8 create_game(game *out_game)
+{
     // Application configuration.
     out_game->app_config.start_pos_x = 240;
     out_game->app_config.start_pos_y = 220;

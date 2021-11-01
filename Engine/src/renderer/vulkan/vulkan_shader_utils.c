@@ -7,12 +7,13 @@
 #include "platform/filesystem.h"
 
 b8 create_shader_module(
-    vulkan_context* context,
-    const char* name,
-    const char* type_str,
+    vulkan_context *context,
+    const char *name,
+    const char *type_str,
     VkShaderStageFlagBits shader_stage_flag,
     u32 stage_index,
-    vulkan_shader_stage* shader_stages) {
+    vulkan_shader_stage *shader_stages)
+{
     // Build file name.
     char file_name[512];
     string_format(file_name, "Assets/Shaders/%s.%s.spv", name, type_str);
@@ -22,20 +23,22 @@ b8 create_shader_module(
 
     // Obtain file handle.
     file_handle handle;
-    if (!filesystem_open(file_name, FILE_MODE_READ, true, &handle)) {
+    if (!filesystem_open(file_name, FILE_MODE_READ, true, &handle))
+    {
         SLN_ERROR("Unable to read shader module: %s.", file_name);
         return false;
     }
 
     // Read the entire file as binary.
     u64 size = 0;
-    u8* file_buffer = 0;
-    if (!filesystem_read_all_bytes(&handle, &file_buffer, &size)) {
+    u8 *file_buffer = 0;
+    if (!filesystem_read_all_bytes(&handle, &file_buffer, &size))
+    {
         SLN_ERROR("Unable to binary read shader module: %s.", file_name);
         return false;
     }
     shader_stages[stage_index].create_info.codeSize = size;
-    shader_stages[stage_index].create_info.pCode = (u32*)file_buffer;
+    shader_stages[stage_index].create_info.pCode = (u32 *)file_buffer;
 
     // Close the file.
     filesystem_close(&handle);

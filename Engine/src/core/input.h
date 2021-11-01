@@ -2,7 +2,8 @@
 
 #include "defines.h"
 
-typedef enum buttons {
+typedef enum buttons
+{
     BUTTON_LEFT,
     BUTTON_RIGHT,
     BUTTON_MIDDLE,
@@ -11,7 +12,8 @@ typedef enum buttons {
 
 #define DEFINE_KEY(name, code) KEY_##name = code
 
-typedef enum keys {
+typedef enum keys
+{
     DEFINE_KEY(BACKSPACE, 0x08),
     DEFINE_KEY(ENTER, 0x0D),
     DEFINE_KEY(TAB, 0x09),
@@ -149,8 +151,8 @@ typedef enum keys {
  * @param memory_requirement The required size of the state memory.
  * @param state Either 0 or the allocated block of state memory.
  */
-void input_system_initialize(u64* memory_requirement, void* state);
-void input_system_shutdown(void* state);
+void input_system_initialize(u64 *memory_requirement, void *state);
+void input_system_shutdown(void *state);
 void input_update(f64 delta_time);
 
 // keyboard input
@@ -166,8 +168,8 @@ SLN_API b8 input_is_button_down(buttons button);
 SLN_API b8 input_is_button_up(buttons button);
 SLN_API b8 input_was_button_down(buttons button);
 SLN_API b8 input_was_button_up(buttons button);
-SLN_API void input_get_mouse_position(i32* x, i32* y);
-SLN_API void input_get_previous_mouse_position(i32* x, i32* y);
+SLN_API void input_get_mouse_position(i32 *x, i32 *y);
+SLN_API void input_get_previous_mouse_position(i32 *x, i32 *y);
 
 void input_process_button(buttons button, b8 pressed);
 void input_process_mouse_move(i16 x, i16 y);

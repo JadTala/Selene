@@ -5,25 +5,29 @@
 #include <core/sln_string.h>
 #include <core/clock.h>
 
-typedef struct test_entry {
+typedef struct test_entry
+{
     PFN_test func;
-    char* desc;
+    char *desc;
 } test_entry;
 
-static test_entry* tests;
+static test_entry *tests;
 
-void test_manager_init() {
+void test_manager_init()
+{
     tests = darray_create(test_entry);
 }
 
-void test_manager_register_test(u8 (*PFN_test)(), char* desc) {
+void test_manager_register_test(u8 (*PFN_test)(), char *desc)
+{
     test_entry e;
     e.func = PFN_test;
     e.desc = desc;
     darray_push(tests, e);
 }
 
-void test_manager_run_tests() {
+void test_manager_run_tests()
+{
     u32 passed = 0;
     u32 failed = 0;
     u32 skipped = 0;
@@ -33,18 +37,24 @@ void test_manager_run_tests() {
     clock total_time;
     clock_start(&total_time);
 
-    for (u32 i = 0; i < count; ++i) {
+    for (u32 i = 0; i < count; ++i)
+    {
         clock test_time;
         clock_start(&test_time);
         u8 result = tests[i].func();
         clock_update(&test_time);
 
-        if (result == true) {
+        if (result == true)
+        {
             ++passed;
-        } else if (result == BYPASS) {
+        }
+        else if (result == BYPASS)
+        {
             SLN_WARN("[SKIPPED]: %s", tests[i].desc);
             ++skipped;
-        } else {
+        }
+        else
+        {
             SLN_ERROR("[FAILED]: %s", tests[i].desc);
             ++failed;
         }

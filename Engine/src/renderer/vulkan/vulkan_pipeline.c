@@ -7,18 +7,19 @@
 #include "math/math_types.h"
 
 b8 vulkan_graphics_pipeline_create(
-    vulkan_context* context,
-    vulkan_renderpass* renderpass,
+    vulkan_context *context,
+    vulkan_renderpass *renderpass,
     u32 attribute_count,
-    VkVertexInputAttributeDescription* attributes,
+    VkVertexInputAttributeDescription *attributes,
     u32 descriptor_set_layout_count,
-    VkDescriptorSetLayout* descriptor_set_layouts,
+    VkDescriptorSetLayout *descriptor_set_layouts,
     u32 stage_count,
-    VkPipelineShaderStageCreateInfo* stages,
+    VkPipelineShaderStageCreateInfo *stages,
     VkViewport viewport,
     VkRect2D scissor,
     b8 is_wireframe,
-    vulkan_pipeline* out_pipeline) {
+    vulkan_pipeline *out_pipeline)
+{
     // Viewport state
     VkPipelineViewportStateCreateInfo viewport_state = {VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO};
     viewport_state.viewportCount = 1;
@@ -88,9 +89,9 @@ b8 vulkan_graphics_pipeline_create(
 
     // Vertex input
     VkVertexInputBindingDescription binding_description;
-    binding_description.binding = 0;  // Binding index
+    binding_description.binding = 0; // Binding index
     binding_description.stride = sizeof(vertex_3d);
-    binding_description.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;  // Move to next data entry for each vertex.
+    binding_description.inputRate = VK_VERTEX_INPUT_RATE_VERTEX; // Move to next data entry for each vertex.
 
     // Attributes
     VkPipelineVertexInputStateCreateInfo vertex_input_info = {VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO};
@@ -156,7 +157,8 @@ b8 vulkan_graphics_pipeline_create(
         context->allocator,
         &out_pipeline->handle);
 
-    if (vulkan_result_is_success(result)) {
+    if (vulkan_result_is_success(result))
+    {
         SLN_DEBUG("Graphics pipeline created!");
         return true;
     }
@@ -165,22 +167,27 @@ b8 vulkan_graphics_pipeline_create(
     return false;
 }
 
-void vulkan_pipeline_destroy(vulkan_context* context, vulkan_pipeline* pipeline) {
-    if (pipeline) {
+void vulkan_pipeline_destroy(vulkan_context *context, vulkan_pipeline *pipeline)
+{
+    if (pipeline)
+    {
         // Destroy pipeline
-        if (pipeline->handle) {
+        if (pipeline->handle)
+        {
             vkDestroyPipeline(context->device.logical_device, pipeline->handle, context->allocator);
             pipeline->handle = 0;
         }
 
         // Destroy layout
-        if (pipeline->pipeline_layout) {
+        if (pipeline->pipeline_layout)
+        {
             vkDestroyPipelineLayout(context->device.logical_device, pipeline->pipeline_layout, context->allocator);
             pipeline->pipeline_layout = 0;
         }
     }
 }
 
-void vulkan_pipeline_bind(vulkan_command_buffer* command_buffer, VkPipelineBindPoint bind_point, vulkan_pipeline* pipeline) {
+void vulkan_pipeline_bind(vulkan_command_buffer *command_buffer, VkPipelineBindPoint bind_point, vulkan_pipeline *pipeline)
+{
     vkCmdBindPipeline(command_buffer->handle, bind_point, pipeline->handle);
 }

@@ -2,7 +2,8 @@
 
 #include "defines.h"
 
-typedef enum memory_tag {
+typedef enum memory_tag
+{
     // For temporary use. Should be assigned one of the below or have a new tag created.
     MEMORY_TAG_UNKNOWN,
     MEMORY_TAG_ARRAY,
@@ -26,19 +27,19 @@ typedef enum memory_tag {
     MEMORY_TAG_MAX_TAGS
 } memory_tag;
 
-SLN_API void memory_system_initialize(u64* memory_requirement, void* state);
-SLN_API void memory_system_shutdown(void* state);
+SLN_API void memory_system_initialize(u64 *memory_requirement, void *state);
+SLN_API void memory_system_shutdown(void *state);
 
-SLN_API void* sln_allocate(u64 size, memory_tag tag);
+SLN_API void *sln_allocate(u64 size, memory_tag tag);
 
-SLN_API void sln_free(void* block, u64 size, memory_tag tag);
+SLN_API void sln_free(void *block, u64 size, memory_tag tag);
 
-SLN_API void* sln_zero_memory(void* block, u64 size);
+SLN_API void *sln_zero_memory(void *block, u64 size);
 
-SLN_API void* sln_copy_memory(void* dest, const void* source, u64 size);
+SLN_API void *sln_copy_memory(void *dest, const void *source, u64 size);
 
-SLN_API void* sln_set_memory(void* dest, i32 value, u64 size);
+SLN_API void *sln_set_memory(void *dest, i32 value, u64 size);
 
-SLN_API char* get_memory_usage_str();
+SLN_API char *get_memory_usage_str();
 
 SLN_API u64 get_memory_alloc_count();
