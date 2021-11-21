@@ -6,6 +6,8 @@
 #include "core/sln_memory.h"
 #include "math/sln_math.h"
 
+#include "resources/resource_types.h"
+
 typedef struct renderer_system_state
 {
     renderer_backend backend;
@@ -13,6 +15,8 @@ typedef struct renderer_system_state
     mat4 view;
     f32 near_clip;
     f32 far_clip;
+
+    texture default_texture;
 } renderer_system_state;
 
 static renderer_system_state *state_ptr;
@@ -43,6 +47,51 @@ b8 renderer_system_initialize(u64 *memory_requirement, void *state, const char *
     state_ptr->view = mat4_translation((vec3){0, 0, -30.0f});
     state_ptr->view = mat4_inverse(state_ptr->view);
 
+    // NOTE: Create default texture, a 256x256 blue/white checkerboard pattern.
+    // This is done in code to eliminate asset dependencies.
+    SLN_TRACE("Creating default texture...");
+    const u32 tex_dimension = 256;
+    const u32 channels = 4;
+    const u32 pixel_count = tex_dimension * tex_dimension;
+    u8 pixels[pixel_count * channels];
+    //u8* pixels = kallocate(sizeof(u8) * pixel_count * bpp, MEMORY_TAG_TEXTURE);
+    sln_set_memory(pixels, 255, sizeof(u8) * pixel_count * channels);
+
+    // Each pixel.
+    for (u64 row = 0; row < tex_dimension; ++row)
+    {
+        for (u64 col = 0; col < tex_dimension; ++col)
+        {
+            u64 index = (row * tex_dimension) + col;
+            u64 index_bpp = index * channels;
+            if (row % 2)
+            {
+                if (col % 2)
+                {
+                    pixels[index_bpp + 0] = 0;
+                    pixels[index_bpp + 1] = 0;
+                }
+            }
+            else
+            {
+                if (!(col % 2))
+                {
+                    pixels[index_bpp + 0] = 0;
+                    pixels[index_bpp + 1] = 0;
+                }
+            }
+        }
+    }
+    renderer_create_texture(
+        "default",
+        false,
+        tex_dimension,
+        tex_dimension,
+        4,
+        pixels,
+        false,
+        &state_ptr->default_texture);
+
     return true;
 }
 
@@ -50,6 +99,8 @@ void renderer_system_shutdown(void *state)
 {
     if (state_ptr)
     {
+        renderer_destroy_texture(&state_ptr->default_texture);
+
         state_ptr->backend.shutdown(&state_ptr->backend);
     }
     state_ptr = 0;
@@ -94,20 +145,17 @@ b8 renderer_draw_frame(render_packet *packet)
     if (renderer_begin_frame(packet->delta_time))
     {
         state_ptr->backend.update_global_state(state_ptr->projection, state_ptr->view, vec3_zero(), vec4_one(), 0);
-        mat4 projection = mat4_perspective(deg_to_rad(45.0f), 1280 / 720.0f, 0.1f, 1000.0f);
-        static f32 z = 0.0f;
-        z += 0.01f;
-        mat4 view = mat4_translation((vec3){0, 0, z}); // -30.0f
-        view = mat4_inverse(view);
 
-        state_ptr->backend.update_global_state(projection, view, vec3_zero(), vec4_one(), 0);
-
-        // mat4 model = mat4_translation((vec3){0, 0, 0});
-        static f32 angle = 0.01f;
-        angle += 0.001f;
-        quat rotation = quat_from_axis_angle(vec3_forward(), angle, false);
-        mat4 model = quat_to_rotation_matrix(rotation, vec3_zero());
-        state_ptr->backend.update_object(model);
+        mat4 model = mat4_translation((vec3){0, 0, 0});
+        // static f32 angle = 0.01f;
+        // angle += 0.001f;
+        // quat rotation = quat_from_axis_angle(vec3_forward(), angle, false);
+        // mat4 model = quat_to_rotation_matrix(rotation, vec3_zero());
+        geometry_render_data data = {};
+        data.object_id = 0; // TODO: actual object id
+        data.model = model;
+        data.textures[0] = &state_ptr->default_texture;
+        state_ptr->backend.update_object(data);
 
         // End the frame. If this fails, it is likely unrecoverable.
         b8 result = renderer_end_frame(packet->delta_time);
